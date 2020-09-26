@@ -174,6 +174,7 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        App\Providers\StockQuoteServiceProvider::class,
 
     ],
 
@@ -228,5 +229,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
+    'stockapikey' => 'WM89B92EM2EAJJAM',
 
 ];
