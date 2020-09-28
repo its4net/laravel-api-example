@@ -1,0 +1,418 @@
+{
+	"info": {
+		"_postman_id": "812bef3c-03ce-46dc-b4b3-14300b874633",
+		"name": "laravel-api-example",
+		"description": "Test APIs built in Laravel",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create User",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}users?name=Kris Scheppe&email=kris@scheppe.us&password=abc123456&password_confirmation=abc123456",
+					"host": [
+						"{{endpoint}}users"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Kris Scheppe",
+							"description": "User's full name"
+						},
+						{
+							"key": "email",
+							"value": "kris@scheppe.us",
+							"description": "User's email address"
+						},
+						{
+							"key": "password",
+							"value": "abc123456",
+							"description": "User account password"
+						},
+						{
+							"key": "password_confirmation",
+							"value": "abc123456",
+							"description": "Confirmation of user password"
+						}
+					]
+				},
+				"description": "Create a user for the application"
+			},
+			"response": []
+		},
+		{
+			"name": "Get user info",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}users",
+					"host": [
+						"{{endpoint}}users"
+					]
+				},
+				"description": "Get the user's info"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "grant_type",
+						"value": "password",
+						"description": "Type of OAuth grant, using password in this case",
+						"type": "text"
+					},
+					{
+						"key": "client_id",
+						"value": "",
+						"description": "OAuth Client ID provided by Passport",
+						"type": "text"
+					},
+					{
+						"key": "client_secret",
+						"value": "",
+						"description": "OAuth Client Secret provide by Passport",
+						"type": "text"
+					},
+					{
+						"key": "username",
+						"value": "",
+						"description": "User email address used to register",
+						"type": "text"
+					},
+					{
+						"key": "password",
+						"value": "",
+						"description": "Password created during registration",
+						"type": "text"
+					},
+					{
+						"key": "scope",
+						"value": "",
+						"description": "OAuth scope (not used in this scenario)",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8000/oauth/token",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8000",
+					"path": [
+						"oauth",
+						"token"
+					]
+				},
+				"description": "OAuth2 login using client id and secret, username and password. On successful login you will receive a token to use to access the API"
+			},
+			"response": []
+		},
+		{
+			"name": "Stock Quote",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}stock/:symbol/:price",
+					"host": [
+						"{{endpoint}}stock"
+					],
+					"path": [
+						":symbol",
+						":price"
+					],
+					"variable": [
+						{
+							"key": "symbol",
+							"value": "f",
+							"description": "Stock ticker symbol"
+						},
+						{
+							"key": "price",
+							"value": "5",
+							"description": "Price stock was bought at"
+						}
+					]
+				},
+				"description": "Gets a stock quote for the given symbol and compares it to the price you bought the stock for and creates associated notificaitons"
+			},
+			"response": []
+		},
+		{
+			"name": "Get Notifications",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}notifications",
+					"host": [
+						"{{endpoint}}notifications"
+					]
+				},
+				"description": "Get all notifications for the user"
+			},
+			"response": []
+		},
+		{
+			"name": "Create notification",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}notifications?message=This is the first notification",
+					"host": [
+						"{{endpoint}}notifications"
+					],
+					"query": [
+						{
+							"key": "message",
+							"value": "This is the first notification",
+							"description": "The notification message"
+						}
+					]
+				},
+				"description": "Create a general notification"
+			},
+			"response": []
+		},
+		{
+			"name": "Update notification",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}notifications/:id?message=This is the new message",
+					"host": [
+						"{{endpoint}}notifications"
+					],
+					"path": [
+						":id"
+					],
+					"query": [
+						{
+							"key": "message",
+							"value": "This is the new message",
+							"description": "New message to update notification."
+						}
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "69bdab5e-10e0-4f20-bc70-5982ba0fc3d3",
+							"description": "id of notification to update"
+						}
+					]
+				},
+				"description": "Update a notification with given id"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete notification",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}notifications/:id",
+					"host": [
+						"{{endpoint}}notifications"
+					],
+					"path": [
+						":id"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "69bdab5e-10e0-4f20-bc70-5982ba0fc3d3",
+							"description": "id of the notification to delete"
+						}
+					]
+				},
+				"description": "Delete a notification give its id."
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Notification Read",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"url": {
+					"raw": "{{endpoint}}notifications/:id/read",
+					"host": [
+						"{{endpoint}}notifications"
+					],
+					"path": [
+						":id",
+						"read"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": ""
+						}
+					]
+				},
+				"description": "Mark the notification with given id as being read."
+			},
+			"response": []
+		},
+		{
+			"name": "Mark Notification Unread",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"accept": true
+				}
+			},
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{endpoint}}notifications/:id/unread",
+					"host": [
+						"{{endpoint}}notifications"
+					],
+					"path": [
+						":id",
+						"unread"
+					],
+					"variable": [
+						{
+							"key": "id",
+							"value": "61376c99-8c07-4970-a1f2-7cba357f9b98",
+							"description": "id of the notification to mark unread"
+						}
+					]
+				},
+				"description": "Mark notification with given id as not read."
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "oauth2",
+		"oauth2": [
+			{
+				"key": "accessToken",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJhdWQiOiI5MWEyMDBhMC1jZjRhLTQ5ZjQtOWQzNC1jZmZhMmJmZGVkN2UiLCJqdGkiOiJmNTA5M2UyNzdiZmNkMGQyN2M4ODg1MzliMTQ1YjY5NDc3NTNiMTE3MmE2MjE5NTFmYmExYjFkYjFjY2Y5NTE1MWE1MzcxN2Y4MWUzNzgxZiIsImlhdCI6MTYwMTI1MTM2MCwibmJmIjoxNjAxMjUxMzYwLCJleHAiOjE2MzI3ODczNTgsInN1YiI6IjEiLCJzY29wZXMiOltdfQ.HBFwBz7Dz4w3Ves7wdBmhWgKY6CrtS9iyraZ-UXABGQb0vkUrq65yvhQTay_8DMqjwmdXVE4-uqyYM3b95pYCuukkHygKLKerZH89ettzlRlrkEiDcM6qptjSAsTpBB-ugb_aXMqtpi1wItgAx7QR3KoJmE2EGmAZB0uvTxLEud9du08hqk0HtjKZICvjw8qofV2a00jBHWddrqCaXvtod30xYSkLh5DQByicS7zK_w5agWvxr4-kov8GuNsx3EVQ0erPkCa8yurpfAlhxAm3gCqg8T7heBmtr0gd8XV3qh9k3ZmKvyPIpqjTq5-iL0nEMBGjUetSg2-Bi7vJL5dkkasrFjl_Xc9xJWULjU4kAQecX8qHv0jMfkrNzVG8b_inF1Enu3MuYv7kfm4zUoM8IZ3VqSYyJ1k6URjPytH1vl30PUQaIOZdv4IYqQGcgluQxzY8ZmXwdhUV7a1x5IwVXhJGfL1t9-1n78y0-ync0GjWl_lo8MhGGAczluLWUaHP6Tzv2kPkdhZ3LFm0pUHbAbgXHuaQ6X66yLilCGRWg3jJ-34-WPjt5F01xuq02ZtIn8FCzcCwFmWmePzOiW5hAgfRGm13TE1ysBvzTkPzm1sVHkYX7UQZVBHKTkhuObiBrX6A9u9PAAFJ-OW97Y-sgzWppRL0ds3BeKu2qtJLws",
+				"type": "string"
+			},
+			{
+				"key": "tokenType",
+				"value": "Bearer",
+				"type": "string"
+			},
+			{
+				"key": "addTokenTo",
+				"value": "header",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "40582a4e-ac93-44f1-9fd5-0094b66d680d",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "82a3e7d9-1f96-4fee-8ab1-fc8c06850599",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "fa21eda8-079d-42f3-8940-be658966ed1e",
+			"key": "endpoint",
+			"value": "http://localhost:8000/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
