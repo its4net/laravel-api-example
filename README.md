@@ -1,61 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# Laravel 8 API Example
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+This is example of APIs written in Laravel 8 and using Laravel Passport for OAuth2 authentication and authorization. This project uses an externa API to get stock quotes and the built-in Laravel notification system. There is also a Postman file to see and test all endpoints.
 
-## About Laravel
+## Installation
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Here are the steps to get this project up and running.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+1. Clone the repository
+2. Run `composer install`
+3. `cd` into the directory the repo was cloned into
+4. `cp .env.example .env` to create environment file.
+5. Edit `.env` file adding you database connection into. Make sure the database has been created and is empty.
+6. Migrate the database by running `php artisan migrate`
+7. Generate encryption keys for OAuth2 by running `php artisan passport:keys`
+8. Generate application key by running `php artisan key:generate`
+9. Create client credentials in passport `php artisan passport:client --password` Use these to obtain a token to use the api.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The application is now installed and ready to go!
 
-## Learning Laravel
+## Getting Started
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+1. In the root of the project run `php artisan serve` to run the server
+2. Load the postman file into postman and use the API to create a user.
+3. Login using the client ID and client secret from step 9 above and the user's email and password. Once you have a token a token you can use it for subsequent requests. Under authentication in the Postman collection you can obtain and save the token.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+Enjoy using the API!
 
-## Laravel Sponsors
+## API Documentation
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+### Create User
 
-### Premium Partners
+**POST** `api/users`
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+Parameters
 
-## Contributing
+`name` The user's full name  
+`email` The user's email  
+`password` The user's password  
+`password_confirmation` Confirmation of the password  
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Login
 
-## Code of Conduct
+**POST** `oauth/token`
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Parameters
 
-## Security Vulnerabilities
+`grant_type = 'password'` User 'password' as the value for this field  
+`client_id` Client id received in step 9 of installation  
+`client_secret` Client secret received in step 9 of installation  
+`username` User's email address  
+`password` User's password  
+`scope` Leave this value blank  
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+This will return a token for you to use to as all endpoints
 
-## License
+### User Info
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**GET** `users`
+
+Will get info for logged in user.
+
+**GET** `api/stock/:symbol/:price`
+
+Path Parameters
+
+`symbol` The symbol of the stock to lookup  
+`price` The price you bought the stock at
+
+This will get the current price and volume for the stock and create a notification telling you how much you've gained or lost.
+
+### Get Notifications
+
+**GET** `api/notifications`
+
+Get all notifications for the logged in user.
+
+### Creat Notification
+
+**POST** `api/notifications`
+
+Parameters
+
+`message` The message for the notification
+
+### Update Notification
+
+**PUT** `api/notifications/:id`
+
+Path Parameters
+
+`id` The id of the notification to update
+
+Parameters
+
+`message` The new message to replace the old one
+
+### Delete Notification
+
+**DELETE** `api/notifications/:id`
+
+Path Parameters
+
+`id` The id of the notification to delete
+
+### Mark Notification Read
+
+**PUT** `api/notifications/:id/read`
+
+Path Parameters
+
+`id` The id of the notification to mark as read
+
+### Mark Notification Unread
+
+**PUT** `api/notifications/:id/unread`
+
+Path Parameters
+
+`id` The id of the notification to mark as unread 
