@@ -10,11 +10,12 @@ Here are the steps to get this project up and running.
 2. Run `composer install`
 3. `cd` into the directory the repo was cloned into
 4. `cp .env.example .env` to create environment file.
-5. Edit `.env` file adding you database connection into. Make sure the database has been created and is empty.
-6. Migrate the database by running `php artisan migrate`
-7. Generate encryption keys for OAuth2 by running `php artisan passport:keys`
-8. Generate application key by running `php artisan key:generate`
-9. Create client credentials in passport `php artisan passport:client --password` Use these to obtain a token to use the api.
+5. Edit `.env` file adding you database connection info. Make sure the database has been created and is empty.
+6. Add your API key obtained from [Alphavantage](https://www.alphavantage.co/support/#api-key) to the '.env' file under STOCK_API_KEY
+7. Migrate the database by running `php artisan migrate`
+8. Generate encryption keys for OAuth2 by running `php artisan passport:keys`
+9. Generate application key by running `php artisan key:generate`
+10. Create client credentials in passport `php artisan passport:client --password` Use these to obtain a token to use the api.
 
 The application is now installed and ready to go!
 

@@ -229,6 +229,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
 
     ],
-    'stockapikey' => 'WM89B92EM2EAJJAM',
+    'stockapikey' => env('STOCK_API_KEY'),
 
 ];
